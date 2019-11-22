@@ -11,7 +11,7 @@ def main():
     directory = args.directory
 
     seconds = 0
-
+    count = 0
     for filename in os.listdir(directory):
         print(filename)
         #Check that it's an audio file
@@ -19,8 +19,13 @@ def main():
         if ext in ['wav', 'mp3']:  #add more extensions here if necessary
             y, sr = librosa.load(os.path.join(directory,filename))
             seconds = seconds + len(y)/sr
+            count = count+ 1
     print('There are {} seconds of audio in this directory'.format(seconds))
     print('There are {} minutes of audio in this directory'.format(seconds/60.0))
     print('There are {} hours of audio in this directory'.format(seconds/3600.0))
+    print('There are {} audio files in this directory'.format(count))
+    print('The average utterance length in this directory is {}'.format(seconds/float(count)))
+
+
 if __name__ == '__main__':
     main()
