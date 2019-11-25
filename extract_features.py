@@ -14,19 +14,20 @@ def make_melspectrograms(data_loc, save_loc):
     #iterate through the given data directory
     for filename in os.listdir(data_loc):
         print(filename)
-        if filename.split('.')[-1] not in ['wav', 'mp3']:
-            break
-        #open the speech, and make the spectrogram
-        y, sr = librosa.load(os.path.join(data_loc, filename))
+        if filename.split('.')[-1] in ['wav', 'mp3']:
+            #open the speech, and make the spectrogram
+            y, sr = librosa.load(os.path.join(data_loc, filename))
 
-        #TODO: attach arguments, right now it's hard coded the Google way
-        y = librosa.core.resample(y, sr, 16000)
-        spect = librosa.feature.melspectrogram(y=y, sr=16000, n_fft=1024, hop_length=200, fmax=7600, n_mels=80)
-        #convert to log-scale (dbs)
-        ps_db = librosa.power_to_db(spect, ref=np.max)
+            #TODO: attach arguments, right now it's hard coded the Google way, also for some reason win_length won't work
+            y = librosa.core.resample(y, sr, 16000)
+            spect = librosa.feature.melspectrogram(y=y, sr=16000, n_fft=1024, hop_length=200, fmax=7600, n_mels=80)
 
-        #save the spectrogram... add to a list and save the list at the end.
-        data.append([filename, ps_db])
+            #convert to log-scale (dbs)
+            ps_db = librosa.power_to_db(spect, ref=np.max)
+
+            #save the spectrogram... add to a list and save the list at the end.
+            data.append([filename, ps_db])
+
     pkl.dump(data, open(os.path.join(save_loc, 'melspect.pkl'), 'wb'))
 
 
