@@ -28,7 +28,7 @@ def make_melspectrograms(data_loc, save_loc):
             #save the spectrogram... add to a list and save the list at the end.
             data.append([filename, ps_db])
 
-    pkl.dump(data, open(os.path.join(save_loc, 'melspect.pkl'), 'wb'))
+    pkl.dump(data, open(os.path.join(save_loc, 'all_melspect.pkl'), 'wb'))
 
 
 
